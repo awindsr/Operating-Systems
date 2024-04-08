@@ -3,29 +3,29 @@
 void swap(int arrA[], int arrB[], int arrC[], int length) {
     for (int i = 0; i < length; i++) {
         for (int j = i + 1; j < length; j++) {
-        
             if (arrA[i] > arrA[j]) {
-                // Sort 
+                // Sort priority array
                 int temp = arrA[i];
                 arrA[i] = arrA[j];
-                arrA[j] = temp;   
+                arrA[j] = temp;
 
-                // Sort process accordingly
-                int temp2 = arrB[i];
+                // Sort processID array accordingly
+                temp = arrB[i];
                 arrB[i] = arrB[j];
-                arrB[j] = temp2;
+                arrB[j] = temp;
 
-                int temp3 = arrC[i];
+                // Sort burstTime array accordingly
+                temp = arrC[i];
                 arrC[i] = arrC[j];
-                arrC[j] = temp3;
+                arrC[j] = temp;
             }
         }
     }
 }
 
-void main() {
-    int length, totalWaitTime=0, totalTurnAroundTime=0;
-	float avgWaitTime=0, avgTurnAroundTime=0;
+int main() {
+    int length, totalWaitTime = 0, totalTurnAroundTime = 0;
+    float avgWaitTime = 0, avgTurnAroundTime = 0;
     printf("Enter the total number of processes: ");
     scanf("%d", &length);
 
@@ -39,7 +39,10 @@ void main() {
         processID[i] = i;
     }
 
+    // Sorting processes based on priority
     swap(priorityTable, processID, burstTime, length);
+
+    waitTime[0] = 0;
     turnAroundTime[0] = burstTime[0];
 
     for (int i = 1; i < length; i++) {
@@ -56,10 +59,12 @@ void main() {
     for (int i = 0; i < length; i++) {
         totalWaitTime += waitTime[i];
     }
-    	avgWaitTime = (float)totalWaitTime / length;
-	avgTurnAroundTime = (float)totalTurnAroundTime/length;
-	
-    	printf("Total wait time is %d\nAverage wait time is %f\n",totalWaitTime, avgWaitTime);
-    	printf("Total Turn around time time is %d\nAverage turn around time is %f\n",totalTurnAroundTime, avgTurnAroundTime);
-}
+    avgWaitTime = (float)totalWaitTime / length;
+    totalTurnAroundTime += turnAroundTime[0];
+    avgTurnAroundTime = (float)totalTurnAroundTime / length;
 
+    printf("Total wait time is %d\nAverage wait time is %f\n", totalWaitTime, avgWaitTime);
+    printf("Total Turnaround time is %d\nAverage turnaround time is %f\n", totalTurnAroundTime, avgTurnAroundTime);
+
+    return 0;
+}
